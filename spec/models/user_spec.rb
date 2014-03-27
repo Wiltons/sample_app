@@ -11,7 +11,6 @@ describe User do
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
-<<<<<<< HEAD
 
   it { should be_valid }
 
@@ -47,7 +46,6 @@ describe User do
       user_with_same_email.save
     end
 
-=======
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
@@ -64,7 +62,6 @@ describe User do
 
   describe "when password doesn't match confirmation" do
     before { @user.password_confirmation = "mismatch" }
->>>>>>> modeling-users
     it { should_not be_valid }
   end
 end
