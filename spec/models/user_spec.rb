@@ -14,6 +14,11 @@ describe User do
 
   it { should be_valid }
 
+  describe "remember token" do
+    before {@user.save}
+    its (:remember_token) {should_not be_blank}
+  end
+
   describe "when name is not prsent" do
     before { @user.name = " " }
     it { should_not be_valid }
@@ -61,7 +66,8 @@ describe User do
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
-
+  it { should respond_to(:remember_token) }
+  it { should respond_to(:authenticate) }
   it { should be_valid }
 
   describe "when password is not present" do
@@ -76,8 +82,6 @@ describe User do
     before { @user.password_confirmation = "mismatch" }
     it { should_not be_valid }
   end
-
-  it { should respond_to(:authenticate) }
 
   describe "with a password that's too short" do
     before { @user.password = @user.password_confirmation = "a" * 5 }
