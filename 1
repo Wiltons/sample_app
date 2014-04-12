@@ -149,12 +149,6 @@ describe "Authentication" do
 
             specify{expect(response).to redirect_to(root_url)}
           end
-
-          describe "visiting the create action" do
-            before{post users_path}
-
-            specify{expect(response).to redirect_to(root_url)}
-          end
         end
       end
     end
