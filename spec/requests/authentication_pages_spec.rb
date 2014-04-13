@@ -41,6 +41,7 @@ describe "Authentication" do
         before {click_link "Sign out"}
 
         it {should have_link('Sign in')}
+        it {should have_selector('div.alert.alert-success')}
       end
     end
   end
@@ -77,6 +78,11 @@ describe "Authentication" do
     describe "for non-signed-in users" do
       let(:user) {FactoryGirl.create(:user)}
 
+      it {should_not have_link('Users',       href: users_path)}
+      it {should_not have_link('Profile',     href: user_path(user))}
+      it {should_not have_link('Sign out',    href: signout_path)}
+      it {should_not have_link('Settings',    href: edit_user_path(user))}
+
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
@@ -94,10 +100,17 @@ describe "Authentication" do
 
       describe "in the Users controller" do
         
-        describe "visiting the edit page" do
+        describe "visiting the edit page as a non-signed-in user" do
           before {visit edit_user_path(user)}
 
           it { should have_title('Sign in')}
+        end
+
+        describe "visiting the edit page as a signed-in user" do
+          before {sign_in user}
+          before {visit edit_user_path(user)}
+
+          specify { expect(response).to redirect_to(root_url)}
         end
 
         describe "submitting to the update action" do
